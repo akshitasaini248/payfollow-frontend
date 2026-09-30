@@ -77,6 +77,7 @@ function App() {
             client={inv.client}
             amount={inv.amount}
             due={inv.due}
+            phone={inv.phone}
             paid={inv.paid}
             onPaid={markPaid}
           />

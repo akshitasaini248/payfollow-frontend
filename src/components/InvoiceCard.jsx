@@ -1,11 +1,15 @@
 import { useState } from 'react'
 import { daysOverdue, getStatus, formatDate, getReminder } from '../utils'
 
-function InvoiceCard({ id, client, amount, due, paid, onPaid }) {
+function InvoiceCard({ id, client, amount, due, phone, paid, onPaid }) {
   const [showReminder, setShowReminder] = useState(false)
   const [copied, setCopied] = useState(false)
   const overdue = !paid && daysOverdue(due) > 0
   const reminder = getReminder(client, amount, due)
+
+  const cleanPhone = (phone || '').replace(/\D/g, '')
+  const waNumber = cleanPhone.length === 10 ? '91' + cleanPhone : cleanPhone
+  const waLink = `https://wa.me/${waNumber}?text=${encodeURIComponent(reminder.text)}`
 
   function copyMessage() {
     navigator.clipboard.writeText(reminder.text)
@@ -61,6 +65,16 @@ function InvoiceCard({ id, client, amount, due, paid, onPaid }) {
           >
             {copied ? 'Copied!' : 'Copy message'}
           </button>
+          {waNumber && (
+            <a
+              href={waLink}
+              target="_blank"
+              rel="noreferrer"
+              className="mt-2 ml-2 inline-block bg-green-600 text-white text-sm px-3 py-1 rounded-lg"
+            >
+              Send on WhatsApp
+            </a>
+          )}
         </div>
       )}
     </div>

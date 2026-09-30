@@ -4,13 +4,15 @@ function InvoiceForm({ onAdd }) {
   const [client, setClient] = useState('')
   const [amount, setAmount] = useState('')
   const [due, setDue] = useState('')
+  const [phone, setPhone] = useState('')
 
   function handleSubmit(e) {
     e.preventDefault()
-    onAdd({ id: Date.now(), client, amount: Number(amount), due })
+    onAdd({ id: Date.now(), client, amount: Number(amount), due, phone })
     setClient('')
     setAmount('')
     setDue('')
+    setPhone('')
   }
 
   return (
@@ -29,6 +31,13 @@ function InvoiceForm({ onAdd }) {
         placeholder="Amount (₹)"
         required
         className="border rounded-lg px-3 py-2 w-40"
+      />
+      <input
+        type="tel"
+        value={phone}
+        onChange={(e) => setPhone(e.target.value)}
+        placeholder="Client WhatsApp (10 digit)"
+        className="border rounded-lg px-3 py-2 w-56"
       />
       <input
         type="date"
